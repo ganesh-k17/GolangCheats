@@ -1,0 +1,227 @@
+go mod init github.com/testGo
+
+
+set goos=linux
+set goarch=amd64
+go build -o main main.go
+%USERPROFILE%\Go\bin\build-lambda-zip.exe -o main.zip main
+
+general template:
+
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("hello")
+}
+
+
+
+
+unit test:
+
+import "testing"
+func TestAbc(t *testing.T) {
+    t.Error() // to indicate test failed
+}
+
+
+
+
+package math
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/testGo/entities"
+)
+
+func TestAdd(t *testing.T) {
+
+	// testData := []entities.TestData{
+	// 	{[]int{1, 2}, 3, false},
+	// 	{[]int{4, 5}, 9, false},
+	// 	{[]int{9, 10}, 19, false},
+	// }
+
+	testData := []entities.TestData{
+		{Inputs: []int{1, 2}, Result: 3, IsError: false},
+		{Inputs: []int{4, 5}, Result: 9, IsError: false},
+		{Inputs: []int{9, 10}, Result: 19, IsError: false},
+	}
+
+	for _, data := range testData {
+		result := Add(data.Inputs[0], data.Inputs[1])
+		assert.Equal(t, data.Result, result)
+	}
+	//t.Error() // to indicate test failed
+}
+
+
+
+go test student/*.go
+go test ./math  // to test only math package
+go test ./...   // to test all the packages
+go test ./... -v -cover     // to test and display test coverage
+
+
+Loop:
+
+for i := 0; i < 10; i++ {
+	//
+}
+
+
+sum := 1
+for ; sum < 1000; {
+	sum += sum
+}
+
+
+for is go's while:
+
+sum := 1
+for sum < 1000 {
+	sum += sum
+}
+
+
+Forever:
+
+func main() {
+	for {
+	}
+}
+
+
+Conditions:
+
+if:
+
+if x < 0 {
+	return sqrt(-x) + "i"
+}
+
+
+if with short statement:
+
+if v := math.Pow(x, n); v < lim {
+	return v
+}
+
+if else:
+
+if v := math.Pow(x, n); v < lim {
+	return v
+} else {
+	fmt.Printf("%g >= %g\n", v, lim)
+}
+
+
+Functions:
+
+func Sqrt(x float64) float64 {
+
+}
+
+Switch:
+
+switch os := runtime.GOOS; os {
+	case "darwin":
+		fmt.Println("OS X.")
+	case "linux":
+		fmt.Println("Linux.")
+	default:
+		// freebsd, openbsd,
+		// plan9, windows...
+		fmt.Printf("%s.\n", os)
+}
+
+
+if with no condition:
+
+switch {
+	case t.Hour() < 12:
+		fmt.Println("Good morning!")
+	case t.Hour() < 17:
+		fmt.Println("Good afternoon.")
+	default:
+		fmt.Println("Good evening.")
+}
+
+
+Struct:
+
+type Vertex struct {
+	X int
+	Y int
+}
+
+func main() {
+	v := Vertex{1, 2}
+	p := &v
+	p.X = 1e9
+	fmt.Println(v)
+}
+
+
+Array:
+
+var a [2]string
+primes := [6]int{2, 3, 5, 7, 11, 13}
+
+
+Slices:
+(The zero value of a slice is nil.)
+(Slices can contain any type, including other slices.)
+
+primes := [6]int{2, 3, 5, 7, 11, 13}
+var s []int = primes[1:4]   // [3 5 7]   // Slices are only like references to arrays
+
+
+Slice defaults:
+
+a[0:10]
+a[:10]
+a[0:]
+a[:]
+
+
+Creating a slice with make:
+
+a := make([]int, 5)  // len(a)=5
+b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+
+Appending to a slice:
+
+var s []int
+s = append(s, 0)
+s = append(s, 1)     // [0 1]
+s = append(s, 2, 3, 4)   // [0 1 2 3 4]
+
+Range:
+
+var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+for i, v := range pow {
+	fmt.Printf("2**%d = %d\n", i, v)
+}
+
+
+Maps:
+(A map maps keys to values.)
+(The zero value of a map is nil. A nil map has no keys, nor can keys be added.)
+(The make function returns a map of the given type, initialized and ready for use)
+
+type Vertex struct {
+	Lat, Long float64
+}
+
+var m map[string]Vertex
+m = make(map[string]Vertex)
+
+
